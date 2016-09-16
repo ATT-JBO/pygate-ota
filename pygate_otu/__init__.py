@@ -8,8 +8,8 @@ __status__ = "Prototype"  # "Development", or "Production"
 import logging
 logger = logging.getLogger('ota')
 
-import ota.ATT_OTA as OTA
-from core import cloud, modules
+import ATT_OTA as OTA
+from pygate_core import cloud, modules
 
 _gateway = None
 _VersionId = 'version'
