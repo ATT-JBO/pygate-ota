@@ -4,6 +4,9 @@ import httplib
 import zipfile
 import os
 import logging
+logger = logging.getLogger('otu')
+
+_version_file_name = 'version.txt'
 
 '''
 liatogateway-<version number>.zip
@@ -24,16 +27,15 @@ def upgradeFirmware(version):
     conn = httplib.HTTPConnection("liato.blob.core.windows.net")
     conn.request("GET", "/firmware/" + version + '.zip')
     response = conn.getresponse()
-    logging.info(response.status)
+    logger.info(response.status)
 
     if response.status == 200:
-        #deleteFolder()
         target_path = os.getcwd()
         targetFile = os.path.join(target_path, file)
         f = open(targetFile, 'wb')                          # download file from ATT cloud
         f.write(response.read())
         f.close()
-        logging.info('unzipping ' + targetFile)
+        logger.info('unzipping ' + targetFile)
         with zipfile.ZipFile(targetFile, 'r') as z:         # unzip file in current folder
             z.extractall(target_path)
     restart()
@@ -43,11 +45,11 @@ def restart():
     import subprocess
     process = subprocess.Popen(command.split(), stdout = subprocess.PIPE)
     output = process.communicate()[0]
-    logging.info(output)
+    logger.info(output)
 
 def getVersionNumber():
-    if os.path.isfile('version.txt'):
-        with open('version.txt') as f:
+    if os.path.isfile(_version_file_name):
+        with open(_version_file_name) as f:
             content = [x.strip('\n') for x in f.readlines()]
             return content[0]
     else:

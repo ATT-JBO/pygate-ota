@@ -6,7 +6,7 @@ __email__ = "jb@allthingstalk.com"
 __status__ = "Prototype"  # "Development", or "Production"
 
 import logging
-logger = logging.getLogger('ota')
+logger = logging.getLogger('otu')
 
 import ATT_OTA as OTA
 from pygate_core import cloud, modules
